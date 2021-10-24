@@ -11,7 +11,8 @@ from tabletalks.base.forms import TableForm
 
 
 def home(request):
-    tables = Table.objects.all()
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    tables = Table.objects.filter(topic__name__icontains=q)
     topics = Topic.objects.all()
     context = {'tables': tables, 'topics': topics}
     return render(request, 'base/home.html', context)
