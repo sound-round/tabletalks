@@ -1,20 +1,25 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from tabletalks.base.models import Table, Topic
 from tabletalks.base.forms import TableForm
 
 
-# tables = [
-#     {'id': 1, 'name': "Let's learn python!"},
-#     {'id': 2, 'name': "Design with me"},
-#     {'id': 3, 'name': "Frontend developers"},
-# ]
-
-
 def home(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    tables = Table.objects.filter(topic__name__icontains=q)
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    tables = Table.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q) |
+        Q(host__username__icontains=q)
+    )
     topics = Topic.objects.all()
-    context = {'tables': tables, 'topics': topics}
+    table_count = tables.count()
+
+    context = {
+        'tables': tables,
+        'topics': topics,
+        'table_count': table_count,
+    }
     return render(request, 'base/home.html', context)
 
 
