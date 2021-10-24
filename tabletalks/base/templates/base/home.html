@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Home Template</h1>
+
+<div>
+    <div>
+        {% for table in tables %}
+            <div>
+                <h5>{{ table.id }} -- <a href="{% url 'table' table.id %}">{{ table.name }}</a></h5>
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+</div>
+
+
+{% endblock content %}
