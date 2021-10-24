@@ -2,7 +2,6 @@ from django.shortcuts import render
 from tabletalks.base.models import Table
 
 
-
 # tables = [
 #     {'id': 1, 'name': "Let's learn python!"},
 #     {'id': 2, 'name': "Design with me"},
@@ -19,5 +18,9 @@ def home(request):
 def table(request, pk):
     table = Table.objects.get(id=pk)
     context = {'table': table}
-
     return render(request, 'base/table.html', context)
+
+
+def create_table(request):
+    context = {}
+    return render(request, 'base/table_form.html', context)
