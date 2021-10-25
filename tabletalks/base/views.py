@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from tabletalks.base.models import Table, Topic
 from tabletalks.base.forms import TableForm
 
 
 def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('home')
 
     if request.method == "POST":
         username = request.POST.get('username')
@@ -25,6 +29,7 @@ def login_user(request):
         else:
             messages.error(request, 'Wrong username or password.')
 
+    # TODO delete context if it's need
     context = {}
     return render(request, 'base/login_register.html', context)
 
@@ -59,6 +64,7 @@ def table(request, pk):
     return render(request, 'base/table.html', context)
 
 
+@login_required(login_url='login')
 def create_table(request):
     form = TableForm()
     if request.method == 'POST':
@@ -70,9 +76,13 @@ def create_table(request):
     return render(request, 'base/table_form.html', context)
 
 
+@login_required(login_url='login')
 def update_table(request, pk):
     table = Table.objects.get(id=pk)
     form = TableForm(instance=table)
+
+    if request.user != table.host:
+        return HttpResponse('You are not allowed here.')
 
     if request.method == "POST":
         form = TableForm(request.POST, instance=table)
@@ -84,8 +94,12 @@ def update_table(request, pk):
     return render(request, 'base/table_form.html', context)
 
 
+@login_required(login_url='login')
 def delete_table(request, pk):
     table = Table.objects.get(id=pk)
+
+    if request.user != table.host:
+        return HttpResponse('You are not allowed here.')
 
     if request.method == 'POST':
         table.delete()
