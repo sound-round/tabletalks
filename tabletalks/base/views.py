@@ -69,11 +69,13 @@ def home(request):
     )
     topics = Topic.objects.all()
     table_count = tables.count()
+    all_messages = Message.objects.filter(Q(table__topic__name__icontains=q))
 
     context = {
         'tables': tables,
         'topics': topics,
         'table_count': table_count,
+        'all_messages': all_messages,
     }
     return render(request, 'base/home.html', context)
 
@@ -155,9 +157,9 @@ def delete_message(request, pk):
     if request.method == 'POST':
         table = message.table
         message.delete()
-
         if not table.message_set.filter(user=request.user):
             table.participants.remove(request.user)
+
         return redirect('table', pk=table.id)
 
     context = {'obj': message}

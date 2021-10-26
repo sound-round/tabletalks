@@ -5,7 +5,7 @@
 <style>
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 3fr 1fr;
     }
 </style>
 
@@ -14,7 +14,6 @@
     <div>
         <h3>Browse Topics</h3>
         <hr>
-
         <div>
             <a href="{% url 'home' %}">All</a>
         </div>
@@ -23,7 +22,6 @@
             <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a>
         </div>
         {% endfor %}
-
     </div>
 
     <div>
@@ -46,6 +44,10 @@
 
             {% endfor %}
         </div>
+    </div>
+
+    <div>
+        {% include 'base/activity_component.html' %}
     </div>
 
 </div>
