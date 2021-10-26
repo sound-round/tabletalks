@@ -122,7 +122,9 @@ def create_table(request):
     if request.method == 'POST':
         form = TableForm(request.POST)
         if form.is_valid():
-            form.save()
+            table = form.save(commit=False)
+            table.host = request.user
+            table.save()
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/table_form.html', context)

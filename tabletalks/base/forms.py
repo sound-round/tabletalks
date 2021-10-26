@@ -7,3 +7,4 @@ class TableForm(ModelForm):
     class Meta:
         model = Table
         fields = '__all__'
+        exclude = ['host', 'participants']
