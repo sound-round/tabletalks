@@ -102,6 +102,20 @@ def table(request, pk):
     return render(request, 'base/table.html', context)
 
 
+def user_profile(request, pk):
+    user = User.objects.get(id=pk)
+    tables = user.table_set.all()
+    all_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {
+        'user': user,
+        'tables': tables,
+        'all_messages': all_messages,
+        'topics': topics,
+    }
+    return render(request, 'base/profile.html', context)
+
+
 @login_required(login_url='login')
 def create_table(request):
     form = TableForm()

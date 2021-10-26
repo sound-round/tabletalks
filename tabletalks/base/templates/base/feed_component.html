@@ -5,7 +5,7 @@
             <a href="{% url 'update-table' table.id %}">Edit</a>
             <a href="{% url 'delete-table' table.id %}">Delete</a>
             {% endif %}
-            <span>@{{ table.host.username }}</span>
+            <a href="{% url 'user-profile' table.host.id %}">@{{ table.host.username }}</a>
             <h5>{{ table.id }} -- <a href="{% url 'table' table.id %}">{{ table.name }}</a></h5>
             <small>{{ table.topic.name }}</small>
             <hr>
