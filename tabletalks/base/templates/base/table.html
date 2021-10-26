@@ -5,10 +5,12 @@
 <style>
     .room-container {
         display: grid;
+        grid-template-columns: 3fr 1fr;
     }
 </style>
 
 <div class="room-container">
+
     <div>
         <h1>{{ table.name }}</h1>
 
@@ -19,6 +21,9 @@
             <hr>
             {% for message in table_messages %}
             <div>
+                {% if request.user == message.user %}
+                <a href="{% url 'delete-message' message.id %}">Delete</a>
+                {% endif %}
                 <small>@{{ message.user }}  {{ message.created | timesince }} ago</small>
                 <p>{{ message.body }}</p>
                 <hr>
@@ -31,20 +36,30 @@
             <form method="POST" action="">
                 {% csrf_token %}
                 <input type="text" name="body" placeholder="Write your message here...">
-        <!--        add submit button-->
+
             </form>
+            <!--add submit button-->
         </div>
-        <!--{% else %}-->
+        <!--% else %-->
         <!--<div>-->
         <!--    <h4>You need to login to send messages</h4>-->
         <!--</div>-->
         {% endif %}
     </div>
-
     <div>
         <h3>Participants</h3>
         <hr>
+
+        {% for user in participants %}
+        <div>
+            <p>@{{ user.username }}</p>
+        </div>
+        {% endfor %}
+
     </div>
+
+
+
 </div>
 
 {% endblock content %}

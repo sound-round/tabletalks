@@ -81,6 +81,7 @@ def home(request):
 def table(request, pk):
     table = Table.objects.get(id=pk)
     table_messages = table.message_set.all().order_by('created')
+    participants = table.participants.all()
 
     if request.method == 'POST':
         message = Message.objects.create(
@@ -88,9 +89,14 @@ def table(request, pk):
             table = table,
             body = request.POST.get('body')
         )
+        table.participants.add(request.user)
         return redirect('table', pk=table.id)
 
-    context = {'table': table, 'table_messages': table_messages}
+    context = {
+        'table': table,
+        'table_messages': table_messages,
+        'participants': participants,
+    }
     return render(request, 'base/table.html', context)
 
 
@@ -136,4 +142,20 @@ def delete_table(request, pk):
         return redirect('home')
 
     context = {'obj': table}
+    return render(request, 'base/delete.html', context)
+
+
+@login_required(login_url='login')
+def delete_message(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here.')
+
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+
+    # TODO delete participant if it was last message
+    context = {'obj': message}
     return render(request, 'base/delete.html', context)
