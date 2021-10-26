@@ -2,6 +2,49 @@
 
 {% block content %}
 
-<h1>{{ table.name }}</h1>
+<style>
+    .room-container {
+        display: grid;
+    }
+</style>
+
+<div class="room-container">
+    <div>
+        <h1>{{ table.name }}</h1>
+
+        <p>{{ table.description }}</p>
+
+        <div class="comment-wrapper">
+            <h3>Conversation</h3>
+            <hr>
+            {% for message in table_messages %}
+            <div>
+                <small>@{{ message.user }}  {{ message.created | timesince }} ago</small>
+                <p>{{ message.body }}</p>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if request.user.is_authenticated %}
+        <div class="comment-form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Write your message here...">
+        <!--        add submit button-->
+            </form>
+        </div>
+        <!--{% else %}-->
+        <!--<div>-->
+        <!--    <h4>You need to login to send messages</h4>-->
+        <!--</div>-->
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>Participants</h3>
+        <hr>
+    </div>
+</div>
 
 {% endblock content %}

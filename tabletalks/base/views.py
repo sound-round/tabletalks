@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-
-from tabletalks.base.models import Table, Topic
+from tabletalks.base.models import Table, Topic, Message
 from tabletalks.base.forms import TableForm
 
 
@@ -81,7 +80,17 @@ def home(request):
 
 def table(request, pk):
     table = Table.objects.get(id=pk)
-    context = {'table': table}
+    table_messages = table.message_set.all().order_by('created')
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user = request.user,
+            table = table,
+            body = request.POST.get('body')
+        )
+        return redirect('table', pk=table.id)
+
+    context = {'table': table, 'table_messages': table_messages}
     return render(request, 'base/table.html', context)
 
 
