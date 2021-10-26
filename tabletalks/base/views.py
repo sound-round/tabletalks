@@ -153,9 +153,12 @@ def delete_message(request, pk):
         return HttpResponse('You are not allowed here.')
 
     if request.method == 'POST':
+        table = message.table
         message.delete()
-        return redirect('home')
 
-    # TODO delete participant if it was last message
+        if not table.message_set.filter(user=request.user):
+            table.participants.remove(request.user)
+        return redirect('table', pk=table.id)
+
     context = {'obj': message}
     return render(request, 'base/delete.html', context)
