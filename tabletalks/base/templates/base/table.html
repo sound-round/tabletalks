@@ -36,14 +36,13 @@
             <form method="POST" action="">
                 {% csrf_token %}
                 <input type="text" name="body" placeholder="Write your message here...">
-
+                <input type="submit" value="Send" />
             </form>
-            <!--add submit button-->
         </div>
-        <!--% else %-->
-        <!--<div>-->
-        <!--    <h4>You need to login to send messages</h4>-->
-        <!--</div>-->
+        {% else %}
+        <div>
+           <h4>You need to login to send messages</h4>
+        </div>
         {% endif %}
     </div>
     <div>
