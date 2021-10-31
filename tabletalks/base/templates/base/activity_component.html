@@ -1,14 +1,16 @@
-<h3>Recent activity</h3>
-<hr>
-{% for message in all_messages %}
-<div>
-    <small><a href="{% url 'user-profile' message.user.id  %}">@{{ message.user }}</a>  {{ message.created | timesince }} ago</small>
-    <small>replied to "{{ message.table }}"</small>
-
-    <p>{{ message }}</p>
-    {% if request.user == message.user %}
-    <a href="{% url 'delete-message' message.id %}">Delete</a>
-    {% endif %}
-    <hr>
+<div class="recent-activity-container">
+    <h2 class="component-header">Recent activities</h2>
+    {% for message in all_messages %}
+    <div class="activity-message">
+        <small><a href="{% url 'user-profile' message.user.id  %}">@{{ message.user }}</a>  {{ message.created | timesince }} ago</small>
+        <br>
+        <small>replied to "{{ message.table }}"</small>
+    
+        <p class="activity-message-body">{{ message }}</p>
+        {% if request.user == message.user %}
+        <a class="simple-button" href="{% url 'delete-message' message.id %}">Delete</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+    
 </div>
-{% endfor %}

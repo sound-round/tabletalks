@@ -5,8 +5,8 @@
 
 {% if page == 'login' %}
 
-<div>
-    <form method="POST" action="">
+<div class="form">
+    <form class="form" method="POST" action="">
         {% csrf_token %}
 
         <label>Username:</label>
@@ -15,22 +15,24 @@
         <label>Password:</label>
         <input type="text" name="password" placeholder="Enter password"/>
 
-        <input type="submit" value="Login"/>
+        <input class="button" type="submit" value="Log in"/>
     </form>
+    <hr>
     <p>Haven't signed up yet?</p>
-    <a href="{% url 'register' %}">Sign up</a>
+    <a class="simple-button" href="{% url 'register' %}">Sign up</a>
 </div>
 
 {% else %}
 
-<div>
+<div class="form">
     <form method="POST" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Register"/>
+        <input class="button register-button" type="submit" value="Register"/>
     </form>
+    <hr>
     <p>Already signed up?</p>
-    <a href="{% url 'login' %}">Login</a>
+    <a class="simple-button" href="{% url 'login' %}">Log in</a>
 </div>
 
 {% endif %}

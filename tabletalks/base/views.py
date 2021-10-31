@@ -69,7 +69,7 @@ def home(request):
     )
     topics = Topic.objects.all()
     table_count = tables.count()
-    all_messages = Message.objects.filter(Q(table__topic__name__icontains=q))
+    all_messages = Message.objects.filter(Q(table__topic__name__icontains=q))[:3]
 
     context = {
         'tables': tables,

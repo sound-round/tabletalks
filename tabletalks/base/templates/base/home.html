@@ -2,12 +2,6 @@
 
 {% block content %}
 
-<style>
-    .home-container {
-        display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
-    }
-</style>
 
 <div class="home-container">
 
@@ -16,8 +10,8 @@
     </div>
 
     <div>
-        <h5>{{ table_count }} tables was found</h5>
-        <a href="{% url 'create-table' %}">Create table</a>
+        <h5 class="table-counter">{{ table_count }} tables was found</h5>
+        <a class="button create-table-button" href="{% url 'create-table' %}">+ Create table</a>
         {% include 'base/feed_component.html' %}
     </div>
 

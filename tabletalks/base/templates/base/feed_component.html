@@ -1,15 +1,18 @@
-<div>
+<div class="feed-container">
     {% for table in tables %}
-        <div>
+        <div class="table-container">
             {% if request.user == table.host %}
-            <a href="{% url 'update-table' table.id %}">Edit</a>
-            <a href="{% url 'delete-table' table.id %}">Delete</a>
+            <div class="delete-edit-button-container">
+                <a class="button" href="{% url 'update-table' table.id %}">Edit</a>
+                <a class="button" href="{% url 'delete-table' table.id %}">Delete</a>
+            </div>
+            
             {% endif %}
-            <a href="{% url 'user-profile' table.host.id %}">@{{ table.host.username }}</a>
-            <h5>{{ table.id }} -- <a href="{% url 'table' table.id %}">{{ table.name }}</a></h5>
-            <small>{{ table.topic.name }}</small>
-            <hr>
+            <div>
+                <a class="table-host simple-button" href="{% url 'user-profile' table.host.id %}">@{{ table.host.username }}</a>
+                <h3><a class="simple-button" href="{% url 'table' table.id %}">{{ table.name }}</a></h3>
+                <small class="table-topic">{{ table.topic.name }}</small>
+            </div>
         </div>
-
     {% endfor %}
 </div>
