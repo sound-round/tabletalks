@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'u!jlho7gz8nz%b*5v&nhz(gbuh(%er
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tabletalks.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
