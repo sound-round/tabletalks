@@ -7,6 +7,9 @@ authors = ["denis <yudaev1@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Django = "^3.2.8"
+gunicorn = "^20.1.0"
+dj-database-url = "^0.5.0"
+whitenoise = "^5.3.0"
 
 [tool.poetry.dev-dependencies]
 
