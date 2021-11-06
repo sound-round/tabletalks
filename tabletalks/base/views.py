@@ -86,10 +86,13 @@ def table(request, pk):
     participants = table.participants.all()
 
     if request.method == 'POST':
+        body = request.POST.get('body')
+        if not body:
+            return redirect('table', pk=table.id)
         message = Message.objects.create(
             user = request.user,
             table = table,
-            body = request.POST.get('body')
+            body = body,
         )
         table.participants.add(request.user)
         return redirect('table', pk=table.id)
