@@ -8,3 +8,4 @@ staticfiles/
 *.pyc
 *.log
 *.sqlite3
+psql_password
